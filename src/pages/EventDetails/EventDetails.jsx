@@ -21,7 +21,7 @@ const EventDetails = () => {
                 setEvent(response.data);
 
                 // Fetch news related to the event
-                const news = await fetchEventNews(response.data.category || response.data.eventTitle);
+                const news = await fetchEventNews(response.data.eventTitle);
                 setNewsArticles(news);
             } catch (error) {
                 console.error('Error fetching event:', error);

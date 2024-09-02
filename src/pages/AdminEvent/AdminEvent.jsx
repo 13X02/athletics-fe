@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Navbar from '../../component/Navbar';
 
 const AdminEvent = () => {
     const [events, setEvents] = useState([]);
@@ -9,7 +10,7 @@ const AdminEvent = () => {
 
     useEffect(() => {
         // Fetch all events
-        axios.get('http://localhost:8081/event/all')
+        axios.get('http://localhost:8081/event/inprogress')
             .then(response => setEvents(response.data))
             .catch(error => console.error('Error fetching events:', error));
     }, []);
@@ -24,6 +25,8 @@ const AdminEvent = () => {
     );
 
     return (
+        <>
+        <Navbar/>
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Events</h1>
             <input
@@ -61,6 +64,7 @@ const AdminEvent = () => {
                 </tbody>
             </table>
         </div>
+        </>
     );
 };
 

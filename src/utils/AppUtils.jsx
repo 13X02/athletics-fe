@@ -27,6 +27,16 @@ export const getToken = () => {
       return '';
     }
   };
+  export const getUserId = (token) => {
+    if (!token) return '';
+  
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1])); // Decode payload
+      return payload.userId || ''; // Extract role from payload
+    } catch (error) {
+      return '';
+    }
+  };
   
   export const isLoggedIn = () => {
     const token = getToken();

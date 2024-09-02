@@ -12,7 +12,7 @@ export const fetchEventNews = async (query) => {
                 apiKey: NEWS_API_KEY,
                 language: 'en',
                 sortBy: 'relevancy', // Can use 'popularity' or 'publishedAt' as needed
-                pageSize: 5 // Number of articles to fetch
+                pageSize: 6 // Number of articles to fetch
             }
         });
         return response.data.articles;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import Navbar from '../../component/Navbar';
 
 const EventResult = () => {
   const { eventId } = useParams();
@@ -60,6 +61,8 @@ const EventResult = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
+    <>
+    <Navbar/>
     <div className="p-4">
       {event && (
         <div className="mb-6">
@@ -101,6 +104,7 @@ const EventResult = () => {
         </table>
       </div>
     </div>
+    </>
   );
 };
 

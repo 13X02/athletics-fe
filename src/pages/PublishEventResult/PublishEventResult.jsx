@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Navbar from '../../component/Navbar';
 
 const PublishEventResult = () => {
     const [events, setEvents] = useState([]);
@@ -24,6 +25,8 @@ const PublishEventResult = () => {
     );
 
     return (
+        <>
+        <Navbar/>
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Event Results</h1>
             <input
@@ -61,6 +64,8 @@ const PublishEventResult = () => {
                 </tbody>
             </table>
         </div>
+        
+        </>
     );
 };
 

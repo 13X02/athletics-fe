@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Navbar from '../../component/Navbar';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -29,6 +30,8 @@ function Login() {
   }
 
   return (
+    <>
+    <Navbar/>
     <div className="flex items-center font-poppins justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg">
       <h1 className="text-2xl font-semibold mb-4 text-gray-800">Login</h1>
@@ -66,6 +69,7 @@ function Login() {
         </button>
       </div>
     </div>
+    </>
   );
 }
 

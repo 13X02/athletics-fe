@@ -35,8 +35,8 @@ const CaloriesGraph = () => {
 
   const fetchDailyDietData = async () => {
     try {
-      const token = localStorage.getItem('jwtToken'); // Retrieve token from local storage
-      const response = await axios.get('/api/daily-diet', {
+      const token = localStorage.getItem('authToken'); // Retrieve token from local storage
+      const response = await axios.get('http://localhost:8081/wellness/daily-diet', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setDailyDietData(response.data);
@@ -55,8 +55,8 @@ const CaloriesGraph = () => {
 
   const handleGetRecommendation = async () => {
     try {
-      const token = localStorage.getItem('jwtToken'); // Retrieve token from local storage
-      const response = await axios.get('/api/recommendation', {
+      const token = localStorage.getItem('authToken'); // Retrieve token from local storage
+      const response = await axios.get('http://localhost:8081/wellness/recommendation', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setRecommendation(response.data);
@@ -77,8 +77,8 @@ const CaloriesGraph = () => {
   const handleWeightPlanSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('jwtToken'); // Retrieve token from local storage
-      await axios.post('/api/weight-plan', weightPlanForm, {
+      const token = localStorage.getItem('authToken'); // Retrieve token from local storage
+      await axios.post('http://localhost:8081/wellness/weight-plan', weightPlanForm, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setShowWeightPlanModal(false);
@@ -99,8 +99,8 @@ const CaloriesGraph = () => {
   const handleDailyDietSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('jwtToken'); // Retrieve token from local storage
-      await axios.post('/api/daily-diet', dailyDietForm, {
+      const token = localStorage.getItem('authToken'); // Retrieve token from local storage
+      await axios.post('http://localhost:8081/wellness/daily-diet', dailyDietForm, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setShowDailyDietModal(false);

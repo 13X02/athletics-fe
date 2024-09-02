@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -5,6 +6,7 @@ import axios from 'axios';
 const AthleteForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
+  const navigate = useNavigate();
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
@@ -32,6 +34,7 @@ const AthleteForm = () => {
       
 
       alert('Profile created successfully!');
+      navigate('/profile')
       console.log(response.data);
     } catch (error) {
       console.error('There was an error creating the profile!', error);

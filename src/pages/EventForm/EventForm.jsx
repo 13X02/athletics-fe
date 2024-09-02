@@ -1,7 +1,7 @@
-// src/EventForm.js
+import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { isLoggedIn,getUserRole,getToken } from '../../utils/AppUtils';
+import { isLoggedIn, getUserRole, getToken } from '../../utils/AppUtils';
 import Navbar from '../../component/Navbar';
 
 const EventForm = () => {
@@ -16,6 +16,36 @@ const EventForm = () => {
     });
     const [error, setError] = useState(null);
     const [showForm, setShowForm] = useState(false);
+    const [meets, setMeets] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filteredMeets, setFilteredMeets] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchMeets = async () => {
+            try {
+                const response = await axios.get('http://localhost:8081/meet'); // Update the endpoint as needed
+                setMeets(response.data);
+                setFilteredMeets(response.data);
+            } catch (error) {
+                console.error('Error fetching meets:', error);
+            }
+        };
+
+        fetchMeets();
+    }, []);
+
+    useEffect(() => {
+        if (searchQuery === '') {
+            setFilteredMeets(meets);
+        } else {
+            setFilteredMeets(
+                meets.filter(meet =>
+                    meet.meetName.toLowerCase().includes(searchQuery.toLowerCase())
+                )
+            );
+        }
+    }, [searchQuery, meets]);
 
     useEffect(() => {
         const token = getToken();
@@ -34,8 +64,21 @@ const EventForm = () => {
         });
     };
 
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Check if all fields are filled
+        for (const key in formData) {
+            if (formData[key] === '' || formData[key] === null) {
+                setError('All fields are required.');
+                return;
+            }
+        }
+
         const formDataToSend = new FormData();
         Object.keys(formData).forEach((key) => {
             formDataToSend.append(key, formData[key]);
@@ -49,6 +92,8 @@ const EventForm = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
+            alert("Event created succesfully")
+            navigate('/admin')
             console.log(response.data);
             // Handle success (e.g., show a message or redirect)
         } catch (err) {
@@ -63,107 +108,119 @@ const EventForm = () => {
 
     return (
         <div>
-            <Navbar/>
-            
-        <div className="max-w-3xl my-10 font-poppins mx-auto p-10 bg-white shadow-xl rounded-lg border border-gray-200">
-            <h1 className="text-3xl font-extrabold text-gray-800 mb-8">Create New Event</h1>
-            {error && <p className="text-red-600 text-center mb-6">{error}</p>}
-            <form onSubmit={handleSubmit} className="space-y-8">
-                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+            <Navbar />
+
+            <div className="max-w-3xl my-10 font-poppins mx-auto p-10 bg-white shadow-xl rounded-lg border border-gray-200">
+                <h1 className="text-3xl font-extrabold text-gray-800 mb-8">Create New Event</h1>
+                {error && <p className="text-red-600 text-center mb-6">{error}</p>}
+                <form onSubmit={handleSubmit} className="space-y-8">
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                        <div>
+                            <label className="block text-lg font-medium text-gray-700">Event Title</label>
+                            <input
+                                type="text"
+                                name="eventTitle"
+                                value={formData.eventTitle}
+                                onChange={handleChange}
+                                className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                placeholder="Enter event title"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-lg font-medium text-gray-700">Event Date</label>
+                            <input
+                                type="date"
+                                name="eventDate"
+                                value={formData.eventDate}
+                                onChange={handleChange}
+                                className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                        <div>
+                            <label className="block text-lg font-medium text-gray-700">Meet</label>
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                onChange={handleSearchChange}
+                                className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                placeholder="Search for a meet"
+                            />
+                            <select
+                                name="meetId"
+                                value={formData.meetId}
+                                onChange={handleChange}
+                                className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                required
+                            >
+                                <option value="" disabled>Select a meet</option>
+                                {filteredMeets.map((meet) => (
+                                    <option key={meet.meetId} value={meet.meetId}>
+                                        {meet.meetName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-lg font-medium text-gray-700">Venue</label>
+                            <input
+                                type="text"
+                                name="venue"
+                                value={formData.venue}
+                                onChange={handleChange}
+                                className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                placeholder="Enter venue"
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                        <div>
+                            <label className="block text-lg font-medium text-gray-700">Category</label>
+                            <input
+                                type="text"
+                                name="category"
+                                value={formData.category}
+                                onChange={handleChange}
+                                className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                placeholder="Enter category"
+                                required
+                            />
+                        </div>
+                    </div>
                     <div>
-                        <label className="block text-lg font-medium text-gray-700">Event Title</label>
-                        <input 
-                            type="text" 
-                            name="eventTitle" 
-                            value={formData.eventTitle} 
-                            onChange={handleChange} 
-                            className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
-                            placeholder="Enter event title" 
-                            required 
+                        <label className="block text-lg font-medium text-gray-700">Event Description</label>
+                        <textarea
+                            name="eventDescription"
+                            value={formData.eventDescription}
+                            onChange={handleChange}
+                            className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            rows="6"
+                            placeholder="Describe the event"
+                            required
                         />
                     </div>
                     <div>
-                        <label className="block text-lg font-medium text-gray-700">Event Date</label>
-                        <input 
-                            type="date" 
-                            name="eventDate" 
-                            value={formData.eventDate} 
-                            onChange={handleChange} 
-                            className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
-                            required 
+                        <label className="block text-lg font-medium text-gray-700">Photo</label>
+                        <input
+                            type="file"
+                            name="photo"
+                            onChange={handleChange}
+                            className="mt-2 block w-full text-sm text-gray-500 file:py-3 file:px-4 file:border file:border-gray-300 file:rounded-lg file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100"
+                            required
                         />
                     </div>
-                </div>
-                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                    <div>
-                        <label className="block text-lg font-medium text-gray-700">Meet ID</label>
-                        <input 
-                            type="text" 
-                            name="meetId" 
-                            value={formData.meetId} 
-                            onChange={handleChange} 
-                            className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
-                            placeholder="Enter meet ID" 
-                            required 
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-lg font-medium text-gray-700">Venue</label>
-                        <input 
-                            type="text" 
-                            name="venue" 
-                            value={formData.venue} 
-                            onChange={handleChange} 
-                            className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
-                            placeholder="Enter venue" 
-                            required 
-                        />
-                    </div>
-                </div>
-                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                    <div>
-                        <label className="block text-lg font-medium text-gray-700">Category</label>
-                        <input 
-                            type="text" 
-                            name="category" 
-                            value={formData.category} 
-                            onChange={handleChange} 
-                            className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
-                            placeholder="Enter category" 
-                            required 
-                        />
-                    </div>
-                </div>
-                <div>
-                    <label className="block text-lg font-medium text-gray-700">Event Description</label>
-                    <textarea 
-                        name="eventDescription" 
-                        value={formData.eventDescription} 
-                        onChange={handleChange} 
-                        className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
-                        rows="6" 
-                        placeholder="Describe the event" 
-                        required 
-                    />
-                </div>
-                <div>
-                    <label className="block text-lg font-medium text-gray-700">Photo</label>
-                    <input 
-                        type="file" 
-                        name="photo" 
-                        onChange={handleChange} 
-                        className="mt-2 block w-full text-sm text-gray-500 file:py-3 file:px-4 file:border file:border-gray-300 file:rounded-lg file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100" 
-                        required 
-                    />
-                </div>
-                <button 
-                    type="submit" 
-                    className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                >
-                    Submit
-                </button>
-            </form>
-        </div>
+                    <button
+                        type="submit"
+                        className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
+                    >
+                        Submit
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import Navbar from '../../component/Navbar';
 
 const RegistrationPage = () => {
     const { eventId } = useParams();
@@ -39,6 +40,8 @@ const RegistrationPage = () => {
     };
 
     return (
+        <>
+        <Navbar/>
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Registrations for Event {eventId}</h1>
             <table className="min-w-full bg-white border border-gray-200">
@@ -77,6 +80,7 @@ const RegistrationPage = () => {
                 </tbody>
             </table>
         </div>
+        </>
     );
 };
 

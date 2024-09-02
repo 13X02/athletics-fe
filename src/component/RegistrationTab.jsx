@@ -10,7 +10,7 @@ function RegistrationTabs({ athleteId }) {
     // Fetch registrations by athlete ID
     const fetchRegistrations = async () => {
       try {
-        const response = await axios.get(`/registrations/athlete/${athleteId}`);
+        const response = await axios.get(`http://localhost:8081/event/results/${athleteId}`);
         setRegistrations(response.data);
         setLoading(false);
       } catch (error) {

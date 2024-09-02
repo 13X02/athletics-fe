@@ -2,18 +2,21 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Navbar from '../../component/Navbar';
 
 const AdminDashboard = () => {
     const [meets, setMeets] = useState([]);
 
     useEffect(() => {
         // Fetch list of meets
-        axios.get('/api/meets')
+        axios.get('http://localhost:8081/meet')
             .then(response => setMeets(response.data))
             .catch(error => console.error('Error fetching meets:', error));
     }, []);
 
     return (
+        <>
+        <Navbar/>
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
             <div className="mb-6">
@@ -60,6 +63,7 @@ const AdminDashboard = () => {
                 </tbody>
             </table>
         </div>
+        </>
     );
 };
 

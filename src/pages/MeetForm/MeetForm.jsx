@@ -1,10 +1,13 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import Navbar from '../../component/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 const MeetForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
+  const navigate = useNavigate();
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
@@ -22,6 +25,8 @@ const MeetForm = () => {
       });
 
       alert('Meet created successfully!');
+      navigate('/admin')
+      
       console.log(response.data);
     } catch (error) {
       console.error('There was an error creating the meet!', error);
@@ -29,6 +34,8 @@ const MeetForm = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-xl bg-white p-8 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Create Meet</h1>
@@ -64,6 +71,7 @@ const MeetForm = () => {
         </form>
       </div>
     </div>
+    </>
   );
 };
 

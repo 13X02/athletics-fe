@@ -17,6 +17,7 @@ const SignUp = () => {
         password: password,
         role: role
       };
+      console.log("i am here")
     
       axios.post("http://localhost:8081/auth/register", requestBody)
       .then((res) => {

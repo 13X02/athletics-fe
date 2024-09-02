@@ -12,6 +12,22 @@ import CoachForm from './pages/CoachForm/CoachForm';
 import EventForm from './pages/EventForm/EventForm';
 import MeetForm from './pages/MeetForm/MeetForm';
 import Dashboard from './pages/DashBoard/Dashboard';
+import CoachesPage from './pages/CoachesPage/CoachesPage';
+import CoachProfile from './pages/CoachProfile/CoachProfile';
+import NewsPage from './pages/NewsPage/NewsPage';
+import EventPage from './pages/EventPage/EventPage';
+import EventDetails from './pages/EventDetails/EventDetails';
+import AthletesPage from './pages/AthletesPages/AthletesPages';
+import AthleteDetails from './pages/AthletesDetails/AthletesDetails';
+import ResultPage from './pages/ResultPage/ResultPage';
+import EventResult from './pages/EventResult/EventResult';
+import AthleteProfile from './pages/AthletesProfile/AthletesProfile';
+import Coach from './pages/Coach/Coach';
+import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
+import AdminEvent from './pages/AdminEvent/AdminEvent';
+import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
+import ResultFormPage from './pages/ResultFormPage/ResultFormPage';
+import PublishEventResult from './pages/PublishEventResult/PublishEventResult';
 function App() {
 
  
@@ -28,7 +44,22 @@ function App() {
         <Route path='/event-form'element={<EventForm/>}/>
         <Route path='/meet-form' element={<MeetForm/>}/>
         <Route path='/' element={<Dashboard/>}/>
-        
+        <Route path='/coaches' element={<CoachesPage/>}/>
+        <Route path="/coach/:coachId" element={<CoachProfile />} />
+        <Route path='/news'element={<NewsPage/>}/>
+        <Route path='/events' element={<EventPage/>}/>
+        <Route path="/event/:id" element={<EventDetails />} />
+        <Route path='/athletes' element={<AthletesPage/>}/>
+        <Route path='/results' element={<ResultPage/>}/>
+        <Route path="/athlete/:id" element={<AthleteDetails/>} />
+        <Route path='/result/:id'element={<EventResult/>}/>
+        <Route path='/profile' element={<AthleteProfile/>}/>
+        <Route path='/coach' element={<Coach/>}/>
+        <Route path='/shortlist/:id' element={<RegistrationPage/>}/>
+        <Route path='/adminevent' element={<AdminEvent/>}/>
+        <Route path='/admin' element={<AdminDashboard/>}/>
+        <Route path='/publishresult' element={<PublishEventResult/>}/>
+        <Route path='/result-form/:id' element={<ResultFormPage/>}/>
 
       </Routes>
     

@@ -21,7 +21,7 @@ const AthleteDetails = () => {
 
         const fetchAthleteResults = async () => {
             try {
-                const response = await axios.get(`http://localhost:8081/results/${id}`);
+                const response = await axios.get(`http://localhost:8081/event/results/${id}`);
                 setResults(response.data);
             } catch (error) {
                 console.error('Error fetching athlete results:', error);
@@ -57,7 +57,7 @@ const AthleteDetails = () => {
                         <p><strong>Height:</strong> {athlete.height}</p>
                         <p><strong>Weight:</strong> {athlete.weight}</p>
                         <p><strong>Category:</strong> {athlete.category}</p>
-                        <p><strong>Coach:</strong> {athlete.coach ? athlete.coach.name : 'N/A'}</p>
+                        <p><strong>Coach:</strong> {athlete.coach ? athlete.coach.firstName + " "+ athlete.coach.lastName : 'N/A'}</p>
                     </div>
                 </div>
             )}

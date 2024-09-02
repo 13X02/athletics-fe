@@ -8,6 +8,7 @@ const API_URL = 'http://localhost:8081'; // Replace with your API URL
 export const fetchAllEvents = async () => {
     try {
         const response = await axios.get(`${API_URL}/event/results`);
+        console.log(response)
         return response.data;
     } catch (error) {
         console.error('Error fetching events:', error);
@@ -43,7 +44,7 @@ const ResultPage = () => {
 
     const updateEvents = (data, currentPage, query) => {
         const filteredEvents = data.filter(event =>
-            `${event.eventTitle} ${event.meetName} ${event.category}`.toLowerCase().includes(query.toLowerCase())
+            `${event.eventTitle} ${event.meet.meetName} ${event.category}`.toLowerCase().includes(query.toLowerCase())
         );
         const startIndex = (currentPage - 1) * eventsPerPage;
         const paginatedEvents = filteredEvents.slice(startIndex, startIndex + eventsPerPage);
@@ -83,7 +84,7 @@ const ResultPage = () => {
                         eventId={event.eventId}
                         eventTitle={event.eventTitle}
                         eventDate={event.eventDate}
-                        meetName={event.meetName}
+                        meetName={event.meet.meetName}
                         category={event.category}
                         photoUrl={event.photoUrl}
                         eventType={"result"}

@@ -1,10 +1,12 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CoachForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
+  const navigate = useNavigate()
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
@@ -27,6 +29,8 @@ const CoachForm = () => {
 
       alert('Coach profile created successfully!');
       console.log(response.data);
+      navigate("/")
+      
     } catch (error) {
       console.error('There was an error creating the profile!', error);
     }

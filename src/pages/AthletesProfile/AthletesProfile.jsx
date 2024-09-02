@@ -127,7 +127,7 @@ const AthleteProfile = () => {
        <div className="container mx-auto p-4">
            {athlete && (
                <div className="relative">
-                   <div className="flex flex-col md:flex-row md:space-x-8">
+                   <div className="flex m-8 flex-col md:flex-row md:space-x-8">
                        <div className="md:w-1/3 flex justify-center items-center">
                            <img
                                src={athlete.photoUrl}
@@ -142,7 +142,7 @@ const AthleteProfile = () => {
                            <p><strong>Height:</strong> {athlete.height}</p>
                            <p><strong>Weight:</strong> {athlete.weight}</p>
                            <p><strong>Category:</strong> {athlete.category}</p>
-                           <p><strong>Coach:</strong> {athlete.coach ? athlete.coach.name : 'N/A'}</p>
+                           <p><strong>Coach:</strong> {athlete.coach ? athlete.coach.firstName + " "+ athlete.coach.lastName : 'N/A'}</p>
                        </div>
                    </div>
                    <button
@@ -155,7 +155,7 @@ const AthleteProfile = () => {
            )}
 
            {/* Tabs */}
-           <Tab.Group>
+           <Tab.Group className="rounded-xl"> 
                <Tab.List className="flex space-x-1 bg-blue-900/20 p-1">
                    <Tab
                        className={({ selected }) =>

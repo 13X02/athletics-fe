@@ -19,7 +19,7 @@ function Login() {
         const token = res.data;
         if (token) {
           localStorage.setItem('authToken', token);
-          navigate('/dashboard'); // Redirect to the dashboard or another page
+          navigate('/'); // Redirect to the dashboard or another page
         } else {
           console.error('Token not found in response');
         }

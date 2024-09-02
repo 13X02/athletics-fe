@@ -2,21 +2,29 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../../component/Navbar';
+import { getToken } from '../../utils/AppUtils';
 
 const ResultFormPage = () => {
     const { eventId } = useParams();
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const token = getToken(); // Retrieve token for authorization
+
     useEffect(() => {
-        // Fetch results for the event
-        axios.get(`/api/registrations/event/${eventId}`)
+        // Fetch results for the event with authorization header
+        axios.get(`http://localhost:8081/event/registrations/event/${eventId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(response => {
                 // Initialize results with default values
                 const initializedResults = response.data.map(reg => ({
                     regId: reg.registrationId,
                     score: '',   // Default empty value
-                    comment: ''  // Default empty value
+                    comment: '',
+                    eventId: eventId  // Default empty value
                 }));
                 setResults(initializedResults);
                 setLoading(false);
@@ -25,7 +33,7 @@ const ResultFormPage = () => {
                 console.error('Error fetching registrations:', error);
                 setLoading(false);
             });
-    }, [eventId]);
+    }, [eventId, token]);
 
     const handleInputChange = (index, field, value) => {
         const updatedResults = [...results];
@@ -34,16 +42,19 @@ const ResultFormPage = () => {
     };
 
     const handleSave = () => {
-        // Post results to the backend
-        axios.post('/api/results', results)
+        // Post results to the backend with authorization header
+        axios.post('http://localhost:8081/event/result', results, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(() => {
                 alert('Results saved successfully!');
             })
             .catch(error => {
                 console.error('Error saving results:', error);
             });
-    };
-
+        }
     if (loading) return <p>Loading...</p>;
 
     return (

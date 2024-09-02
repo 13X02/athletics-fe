@@ -3,21 +3,31 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../../component/Navbar';
+import { getToken } from '../../utils/AppUtils';
 
 const RegistrationPage = () => {
-    const { eventId } = useParams();
+    const  {eventId}  = useParams();
+    console.log(eventId)
     const [registrations, setRegistrations] = useState([]);
-
+    const token = getToken();
     useEffect(() => {
         // Fetch registrations for the event
-        axios.get(`/api/registrations/event/${eventId}`)
+        axios.get(`http://localhost:8081/event/registrations/event/${eventId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(response => setRegistrations(response.data))
             .catch(error => console.error('Error fetching registrations:', error));
-    }, [eventId]);
+    }, [eventId, token]);
 
     const handleApprove = (registrationId) => {
         // Call API to approve registration
-        axios.post(`/api/registrations/${registrationId}/approve`)
+        axios.put(`http://localhost:8081/event/registrations/${registrationId}/approve`, null, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(() => {
                 // Update the state or refetch the registrations
                 setRegistrations(registrations.map(reg =>
@@ -29,7 +39,11 @@ const RegistrationPage = () => {
 
     const handleReject = (registrationId) => {
         // Call API to reject registration
-        axios.post(`/api/registrations/${registrationId}/reject`)
+        axios.put(`http://localhost:8081/event/registrations/${registrationId}/reject`, null, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(() => {
                 // Update the state or refetch the registrations
                 setRegistrations(registrations.map(reg =>
@@ -38,6 +52,7 @@ const RegistrationPage = () => {
             })
             .catch(error => console.error('Error rejecting registration:', error));
     };
+
 
     return (
         <>

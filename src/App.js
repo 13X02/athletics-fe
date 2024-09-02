@@ -41,8 +41,7 @@ function App() {
         <Route path="/athlete-form" element={<AthleteForm />} />
         <Route path='/coach-form' element={<CoachForm/>}/>
         <Route path='/*' element={<NotFound/>}/>
-        <Route path='/event-form'element={<EventForm/>}/>
-        <Route path='/meet-form' element={<MeetForm/>}/>
+      
         <Route path='/' element={<Dashboard/>}/>
         <Route path='/coaches' element={<CoachesPage/>}/>
         <Route path="/coach/:coachId" element={<CoachProfile />} />
@@ -52,15 +51,21 @@ function App() {
         <Route path='/athletes' element={<AthletesPage/>}/>
         <Route path='/results' element={<ResultPage/>}/>
         <Route path="/athlete/:id" element={<AthleteDetails/>} />
-        <Route path='/result/:id'element={<EventResult/>}/>
+        <Route path='/result/:eventId'element={<EventResult/>}/>
         <Route path='/profile' element={<AthleteProfile/>}/>
         <Route path='/coach' element={<Coach/>}/>
-        <Route path='/shortlist/:id' element={<RegistrationPage/>}/>
+       
+
+
+
+
+        <Route path='/event-form'element={<EventForm/>}/>
+        <Route path='/meet-form' element={<MeetForm/>}/>
+        <Route path='/shortlist/:eventId' element={<RegistrationPage/>}/>
         <Route path='/adminevent' element={<AdminEvent/>}/>
         <Route path='/admin' element={<AdminDashboard/>}/>
         <Route path='/publishresult' element={<PublishEventResult/>}/>
-        <Route path='/result-form/:id' element={<ResultFormPage/>}/>
-
+        <Route path='/result-form/:eventId' element={<ResultFormPage/>}/>
       </Routes>
     
     </BrowserRouter>

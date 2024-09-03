@@ -40,7 +40,7 @@ const AthleteProfile = () => {
                     height: response.data.height || '',
                     weight: response.data.weight || '',
                     category: response.data.category || '',
-                    photo: null,  // Start with null; it will be updated when a new file is chosen
+                    photo: null,  
                 });
             } catch (error) {
                 console.error('Error fetching athlete details:', error);
@@ -82,22 +82,20 @@ const AthleteProfile = () => {
     const handleFileChange = (e) => {
         setEditData((prevData) => ({
             ...prevData,
-            photo: e.target.files[0], // Store the file object
+            photo: e.target.files[0], 
         }));
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
     
-        // Format date as 'yyyy-MM-dd'
         const formattedBirthDate = new Date(editData.birthDate).toISOString().split('T')[0];
     
-        // Append form data
         Object.keys(editData).forEach(key => {
             if (key === 'photo' && editData.photo) {
-                formData.append('photo', editData.photo); // Append the file if it exists
+                formData.append('photo', editData.photo); 
             } else if (key === 'birthDate') {
-                formData.append(key, formattedBirthDate); // Append formatted date string
+                formData.append(key, formattedBirthDate); 
             } else if (editData[key] !== '' && editData[key] !== null) {
                 formData.append(key, editData[key]);
             }

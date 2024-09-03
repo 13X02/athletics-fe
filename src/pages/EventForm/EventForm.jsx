@@ -15,6 +15,7 @@ const EventForm = () => {
         photo: null,
     });
     const [error, setError] = useState(null);
+    const [descriptionError, setDescriptionError] = useState(null); 
     const [showForm, setShowForm] = useState(false);
     const [meets, setMeets] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
@@ -24,7 +25,7 @@ const EventForm = () => {
     useEffect(() => {
         const fetchMeets = async () => {
             try {
-                const response = await axios.get('http://localhost:8081/meet'); // Update the endpoint as needed
+                const response = await axios.get('http://localhost:8081/meet'); 
                 setMeets(response.data);
                 setFilteredMeets(response.data);
             } catch (error) {
@@ -79,6 +80,14 @@ const EventForm = () => {
             }
         }
 
+        // Check if description length is valid
+        if (formData.eventDescription.length > 1000) {
+            setDescriptionError('Event description must be under 1000 characters.');
+            return;
+        } else {
+            setDescriptionError(null);
+        }
+
         const formDataToSend = new FormData();
         Object.keys(formData).forEach((key) => {
             formDataToSend.append(key, formData[key]);
@@ -92,8 +101,8 @@ const EventForm = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            alert("Event created succesfully")
-            navigate('/dashboard')
+            alert("Event created successfully");
+            navigate('/dashboard');
             console.log(response.data);
             // Handle success (e.g., show a message or redirect)
         } catch (err) {
@@ -113,6 +122,7 @@ const EventForm = () => {
             <div className="max-w-3xl my-10 font-poppins mx-auto p-10 bg-white shadow-xl rounded-lg border border-gray-200">
                 <h1 className="text-3xl font-extrabold text-gray-800 mb-8">Create New Event</h1>
                 {error && <p className="text-red-600 text-center mb-6">{error}</p>}
+                {descriptionError && <p className="text-red-600 text-center mb-6">{descriptionError}</p>} {/* Display description error */}
                 <form onSubmit={handleSubmit} className="space-y-8">
                     <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                         <div>

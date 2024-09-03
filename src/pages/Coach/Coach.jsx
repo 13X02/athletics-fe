@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 import 'tailwindcss/tailwind.css';
 import Navbar from '../../component/Navbar';
-import { CiEdit } from "react-icons/ci";
 import { getToken, getUserId } from '../../utils/AppUtils';
 
 const Coach = () => {
   const [coachId, setCoachId] = useState(""); 
   const token = getToken();
-  const userId = getUserId(token);
   const [coach, setCoach] = useState(null);
   const [achievements, setAchievements] = useState([]);
   const [assistanceRequests, setAssistanceRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isAchievementModalOpen, setIsAchievementModalOpen] = useState(false); // For Achievement Modal
+  const [isAchievementModalOpen, setIsAchievementModalOpen] = useState(false);
   const [achievementData, setAchievementData] = useState({
     meetName: '',
     event: '',
     score: '',
-    performance: '' // Corrected spelling
+    performance: ''
   });
   
   const [activeTab, setActiveTab] = useState('Achievements');
@@ -39,7 +36,6 @@ const Coach = () => {
         const response = await axios.get(`http://localhost:8081/coaches/fetch`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        console.log(response)
         setCoachId(response.data.coachId);
         setCoach(response.data);
         setAchievements(response.data.achievements);
@@ -76,8 +72,8 @@ const Coach = () => {
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalClose = () => setIsModalOpen(false);
 
-  const handleAchievementModalOpen = () => setIsAchievementModalOpen(true); // Open Achievement Modal
-  const handleAchievementModalClose = () => setIsAchievementModalOpen(false); // Close Achievement Modal
+  const handleAchievementModalOpen = () => setIsAchievementModalOpen(true);
+  const handleAchievementModalClose = () => setIsAchievementModalOpen(false);
 
   const handleChange = (e) => {
     setEditData({ ...editData, [e.target.name]: e.target.value });
@@ -131,6 +127,7 @@ const Coach = () => {
       console.error('Error adding achievement', error);
     }
   };
+  
   const handleApprove = async (requestId) => {
     try {
       await axios.post(`http://localhost:8081/coaches/requests/approve/${requestId}`, {}, {
@@ -170,26 +167,28 @@ const Coach = () => {
           >
             Add Achievement
           </button>
-          <table className="min-w-full divide-y divide-gray-200 mt-4">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meet Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Performance</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {achievements.map((achievement) => (
-                <tr key={achievement.achievementId}>
-                  <td className="px-6 py-4 whitespace-nowrap">{achievement.meetName}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{achievement.event}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{achievement.score}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{achievement.performance}</td>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200 mt-4">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meet Name</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Performance</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {achievements.map((achievement) => (
+                  <tr key={achievement.achievementId}>
+                    <td className="px-6 py-4 whitespace-nowrap">{achievement.meetName}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{achievement.event}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{achievement.score}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{achievement.performance}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       );
     } else if (activeTab === 'Assistance Requests') {
@@ -202,7 +201,6 @@ const Coach = () => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Request ID</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Athlete</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Remarks</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
@@ -212,7 +210,6 @@ const Coach = () => {
                   <td className="px-6 py-4 whitespace-nowrap">{request.assistanceRequestId}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{request.athlete.firstName} {request.athlete.lastName}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{request.status}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{request.remarks}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button
                       className="px-4 py-2 bg-green-500 text-white rounded mr-2"
@@ -237,113 +234,103 @@ const Coach = () => {
     return null;
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <p>Loading...</p>;
 
   return (
-    <>
+    <div>
       <Navbar />
-      <div className="container mx-auto p-4">
-        {coach && (
-          <div className="relative">
-            <div className="flex flex-col md:flex-row md:space-x-8">
-              <div className="md:w-1/3 flex justify-center items-center">
-                <img
-                  src={coach.photoUrl || 'https://images.pexels.com/photos/1618042/pexels-photo-1618042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'}
-                  alt={`${coach.firstName} ${coach.lastName}`}
-                  className="rounded-full h-48 w-48 object-cover"
-                />
-              </div>
-              <div className="md:w-2/3 space-y-4">
-                <h1 className="text-3xl font-bold">
-                  {coach.firstName} {coach.lastName}
-                </h1>
-                <p className="text-gray-600">Category: {coach.category}</p>
-                <p className="text-gray-600">Date of Birth: {new Date(coach.birthDate).toLocaleDateString()}</p>
-                <p className="text-gray-600">Gender: {coach.gender}</p>
-                <button
-                  className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-                  onClick={handleModalOpen}
-                >
-                  Edit Coach Info
-                </button>
-              </div>
-            </div>
-            <div className="mt-8">
-              <div className="tabs flex space-x-4">
-                <button
-                  className={`px-4 py-2 ${activeTab === 'Achievements' ? 'border-b-2 border-blue-500' : ''}`}
-                  onClick={() => setActiveTab('Achievements')}
-                >
-                  Achievements
-                </button>
-                <button
-                  className={`px-4 py-2 ${activeTab === 'Assistance Requests' ? 'border-b-2 border-blue-500' : ''}`}
-                  onClick={() => setActiveTab('Assistance Requests')}
-                >
-                  Assistance Requests
-                </button>
-              </div>
-              <div className="mt-4">
-                {renderTabContent()}
-              </div>
-            </div>
+      <div className="container mx-auto px-4 py-6">
+        <div className="flex items-center mb-4">
+          <img
+            src={coach.photoUrl}
+            alt={`${coach.firstName} ${coach.lastName}`}
+            className="w-24 h-24 rounded-full mr-4"
+          />
+          <div>
+            <h1 className="text-2xl font-semibold">{coach.firstName} {coach.lastName}</h1>
+            <p className="text-gray-600">Gender: {coach.gender}</p>
+            <p className="text-gray-600">Date of Birth: {coach.birthDate}</p>
+            <p className="text-gray-600">Category: {coach.category}</p>
+            <button
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+              onClick={handleModalOpen}
+            >
+              Edit Profile
+            </button>
           </div>
-        )}
+        </div>
 
-        {/* Modal for Editing Coach Info */}
+        <div className="mb-4">
+          <button
+            className={`px-4 py-2 mr-2 ${activeTab === 'Achievements' ? 'bg-blue-500 text-white' : 'bg-gray-200'} rounded`}
+            onClick={() => setActiveTab('Achievements')}
+          >
+            Achievements
+          </button>
+          <button
+            className={`px-4 py-2 ${activeTab === 'Assistance Requests' ? 'bg-blue-500 text-white' : 'bg-gray-200'} rounded`}
+            onClick={() => setActiveTab('Assistance Requests')}
+          >
+            Assistance Requests
+          </button>
+        </div>
+
+        {renderTabContent()}
+
+        {/* Edit Profile Modal */}
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-            <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-              <h2 className="text-2xl font-bold mb-4">Edit Coach Info</h2>
-              <form className="space-y-4">
-                <input
-                  type="text"
-                  name="firstName"
-                  value={editData.firstName}
-                  onChange={handleChange}
-                  placeholder="First Name"
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-                <input
-                  type="text"
-                  name="lastName"
-                  value={editData.lastName}
-                  onChange={handleChange}
-                  placeholder="Last Name"
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-                <input
-                  type="text"
-                  name="gender"
-                  value={editData.gender}
-                  onChange={handleChange}
-                  placeholder="Gender"
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-                <input
-                  type="date"
-                  name="birthDate"
-                  value={editData.birthDate}
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-                <input
-                  type="text"
-                  name="category"
-                  value={editData.category}
-                  onChange={handleChange}
-                  placeholder="Category"
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-                <input
-                  type="file"
-                  onChange={(e) => setEditData({ ...editData, photoUrl: e.target.files[0] })}
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-              </form>
-              <div className="mt-4 flex justify-end space-x-2">
+          <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+              <h2 className="text-xl font-semibold mb-4">Edit Profile</h2>
+              <input
+                type="text"
+                name="firstName"
+                value={editData.firstName}
+                onChange={handleChange}
+                placeholder="First Name"
+                className="w-full p-2 border border-gray-300 rounded mb-2"
+              />
+              <input
+                type="text"
+                name="lastName"
+                value={editData.lastName}
+                onChange={handleChange}
+                placeholder="Last Name"
+                className="w-full p-2 border border-gray-300 rounded mb-2"
+              />
+              <input
+                type="text"
+                name="gender"
+                value={editData.gender}
+                onChange={handleChange}
+                placeholder="Gender"
+                className="w-full p-2 border border-gray-300 rounded mb-2"
+              />
+              <input
+                type="date"
+                name="birthDate"
+                value={editData.birthDate}
+                onChange={handleChange}
+                placeholder="Birth Date"
+                className="w-full p-2 border border-gray-300 rounded mb-2"
+              />
+              <input
+                type="text"
+                name="category"
+                value={editData.category}
+                onChange={handleChange}
+                placeholder="Category"
+                className="w-full p-2 border border-gray-300 rounded mb-2"
+              />
+              <input
+                type="file"
+                name="photoUrl"
+                onChange={(e) => setEditData({ ...editData, photoUrl: e.target.files[0] })}
+                className="w-full p-2 border border-gray-300 rounded mb-2"
+              />
+              <div className="flex justify-end mt-4">
                 <button
-                  className="px-4 py-2 bg-gray-500 text-white rounded"
+                  className="px-4 py-2 bg-gray-500 text-white rounded mr-2"
                   onClick={handleModalClose}
                 >
                   Cancel
@@ -359,48 +346,46 @@ const Coach = () => {
           </div>
         )}
 
-        {/* Modal for Adding Achievement */}
+        {/* Add Achievement Modal */}
         {isAchievementModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-            <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-              <h2 className="text-2xl font-bold mb-4">Add Achievement</h2>
-              <form className="space-y-4">
-                <input
-                  type="text"
-                  name="meetName"
-                  value={achievementData.meetName}
-                  onChange={handleAchievementChange}
-                  placeholder="Meet Name"
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-                <input
-                  type="text"
-                  name="event"
-                  value={achievementData.event}
-                  onChange={handleAchievementChange}
-                  placeholder="Event"
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-                <input
-                  type="text"
-                  name="score"
-                  value={achievementData.score}
-                  onChange={handleAchievementChange}
-                  placeholder="Score"
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-                <input
-                  type="text"
-                  name="performance"
-                  value={achievementData.performance}
-                  onChange={handleAchievementChange}
-                  placeholder="Performance"
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-              </form>
-              <div className="mt-4 flex justify-end space-x-2">
+          <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+              <h2 className="text-xl font-semibold mb-4">Add Achievement</h2>
+              <input
+                type="text"
+                name="meetName"
+                value={achievementData.meetName}
+                onChange={handleAchievementChange}
+                placeholder="Meet Name"
+                className="w-full p-2 border border-gray-300 rounded mb-2"
+              />
+              <input
+                type="text"
+                name="event"
+                value={achievementData.event}
+                onChange={handleAchievementChange}
+                placeholder="Event"
+                className="w-full p-2 border border-gray-300 rounded mb-2"
+              />
+              <input
+                type="text"
+                name="score"
+                value={achievementData.score}
+                onChange={handleAchievementChange}
+                placeholder="Score"
+                className="w-full p-2 border border-gray-300 rounded mb-2"
+              />
+              <input
+                type="text"
+                name="performance"
+                value={achievementData.performance}
+                onChange={handleAchievementChange}
+                placeholder="Performance"
+                className="w-full p-2 border border-gray-300 rounded mb-2"
+              />
+              <div className="flex justify-end mt-4">
                 <button
-                  className="px-4 py-2 bg-gray-500 text-white rounded"
+                  className="px-4 py-2 bg-gray-500 text-white rounded mr-2"
                   onClick={handleAchievementModalClose}
                 >
                   Cancel
@@ -409,14 +394,14 @@ const Coach = () => {
                   className="px-4 py-2 bg-blue-500 text-white rounded"
                   onClick={handleAchievementSubmit}
                 >
-                  Add Achievement
+                  Add
                 </button>
               </div>
             </div>
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

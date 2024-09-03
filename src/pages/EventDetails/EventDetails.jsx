@@ -5,7 +5,7 @@ import { getToken, getUserRole } from '../../utils/AppUtils';
 import { fetchEventNews } from '../../utils/newsApi';
 import Navbar from '../../component/Navbar';
 
-const API_URL = 'http://localhost:8081'; // Replace with your API URL
+const API_URL = 'http://localhost:8081'; 
 
 const EventDetails = () => {
     const { id } = useParams();
@@ -20,7 +20,6 @@ const EventDetails = () => {
                 const response = await axios.get(`${API_URL}/event/${id}`);
                 setEvent(response.data);
 
-                // Fetch news related to the event
                 const news = await fetchEventNews(response.data.eventTitle);
                 setNewsArticles(news);
             } catch (error) {

@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { getToken } from '../../utils/AppUtils';
 
 const CoachForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -17,8 +18,7 @@ const CoachForm = () => {
       formData.append('category', data.category);
       formData.append('photo', data.photo[0]);
 
-      // Retrieve Bearer token from localStorage
-      const authHeader = `Bearer ${localStorage.getItem('authToken')}`;
+      const authHeader = `Bearer ${getToken()}`;
 
       const response = await axios.post('http://localhost:8081/coaches/create', formData, {
         headers: {

@@ -3,7 +3,7 @@ import axios from 'axios';
 import AthleteCard from '../../component/AthleteCard';
 import Navbar from '../../component/Navbar';
 
-const API_URL = 'http://localhost:8081'; // Replace with your API URL
+const API_URL = 'http://localhost:8081'; 
 
 export const fetchAllAthletes = async () => {
     try {
@@ -21,7 +21,7 @@ const AthletesPage = () => {
     const [page, setPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
     const [totalPages, setTotalPages] = useState(1);
-    const athletesPerPage = 8; // Adjust as needed
+    const athletesPerPage = 8; 
 
     useEffect(() => {
         const loadAthletes = async () => {
@@ -54,7 +54,7 @@ const AthletesPage = () => {
 
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
-        setPage(1); // Reset to the first page on search
+        setPage(1); 
     };
 
     const handlePageChange = (newPage) => {

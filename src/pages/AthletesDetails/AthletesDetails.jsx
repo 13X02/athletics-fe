@@ -32,7 +32,6 @@ const AthleteDetails = () => {
         fetchAthleteResults();
     }, [id]);
 
-    // Sort results by score and get top 3 performances
     const topPerformances = results
         .sort((a, b) => b.score - a.score)
         .slice(0, 3);

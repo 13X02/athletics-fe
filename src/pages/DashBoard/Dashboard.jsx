@@ -6,12 +6,11 @@ import 'tailwindcss/tailwind.css';
 import { FaCalendarDay, FaUserAlt, FaUserTie } from 'react-icons/fa';
 import Navbar from '../../component/Navbar';
 
-// Register required components
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
 
 const formatDate = (dateTime) => {
   const date = new Date(dateTime);
-  return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+  return date.toISOString().split('T')[0]; 
 };
 
 const StatsDashboard = () => {
@@ -19,12 +18,10 @@ const StatsDashboard = () => {
   const [overviewStats, setOverviewStats] = useState(null);
 
   useEffect(() => {
-    // Fetch data from Event Stats API
     axios.get('http://localhost:8081/event/statistics')
       .then((response) => setEventStats(response.data))
       .catch((error) => console.error('Error fetching event stats:', error));
 
-    // Fetch data from Coaches Overview API
     axios.get('http://localhost:8081/coaches/overview')
       .then((response) => setOverviewStats(response.data))
       .catch((error) => console.error('Error fetching overview stats:', error));
@@ -34,7 +31,6 @@ const StatsDashboard = () => {
     return <div className="text-center text-xl font-bold">Loading...</div>;
   }
 
-  // Prepare data for Line Charts
   const eventDates = Object.keys(eventStats.dailyEventCounts).map(formatDate);
   const eventCounts = Object.values(eventStats.dailyEventCounts);
 
@@ -44,7 +40,6 @@ const StatsDashboard = () => {
   const coachDates = Object.keys(overviewStats.coachesCreatedPerDay).map(formatDate);
   const coachCounts = Object.values(overviewStats.coachesCreatedPerDay);
 
-  // Data for Line Charts
   const eventData = {
     labels: eventDates,
     datasets: [

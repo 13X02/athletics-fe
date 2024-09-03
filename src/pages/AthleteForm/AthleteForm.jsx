@@ -1,14 +1,20 @@
 import { useNavigate } from 'react-router-dom';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
 const AthleteForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-
+  const [customError, setCustomError] = useState(''); // Custom error state
   const navigate = useNavigate();
+
   const onSubmit = async (data) => {
     try {
+      if (data.photo[0].size > 1024 * 1024) {
+        setCustomError('Image size should not exceed 1 MB');
+        return;
+      }
+
       const formData = new FormData();
       formData.append('firstName', data.firstName);
       formData.append('lastName', data.lastName);
@@ -17,11 +23,9 @@ const AthleteForm = () => {
       formData.append('height', data.height);
       formData.append('weight', data.weight);
       formData.append('category', data.category);
-      // Set coachId to blank as per your requirement
       formData.append('coachId', ''); 
       formData.append('photo', data.photo[0]);
 
-      // Retrieve Bearer token from localStorage
       const authHeader = `Bearer ${localStorage.getItem('authToken')}`;
 
       const response = await axios.post('http://localhost:8081/athletes/create', formData, {
@@ -31,12 +35,11 @@ const AthleteForm = () => {
         },
       });
 
-      
-
       alert('Profile created successfully!');
-      navigate('/profile')
+      navigate('/dashboard');
       console.log(response.data);
     } catch (error) {
+      setCustomError('There was an error creating the profile. Please try again.');
       console.error('There was an error creating the profile!', error);
     }
   };
@@ -139,6 +142,9 @@ const AthleteForm = () => {
               {errors.photo && <p className="text-red-500 text-xs mt-1">{errors.photo.message}</p>}
             </div>
           </div>
+
+          {/* Display custom error message */}
+          {customError && <p className="text-red-500 text-center mt-4">{customError}</p>}
 
           <button
             type="submit"

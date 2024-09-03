@@ -6,7 +6,7 @@ import Navbar from '../../component/Navbar';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(''); // State to store error message
+  const [error, setError] = useState(''); 
   const navigate = useNavigate();
 
   function handleSubmit() {
@@ -20,14 +20,14 @@ function Login() {
         const token = res.data;
         if (token) {
           localStorage.setItem('authToken', token);
-          navigate('/'); // Redirect to the dashboard or another page
+          navigate('/'); 
         } else {
-          setError('Token not found in response'); // Handle case where token is not found
+          setError('Token not found in response'); 
         }
       })
       .catch((err) => {
         console.error('Error during login:', err);
-        setError('Invalid credentials, try again'); // Set error message
+        setError('Invalid credentials, try again'); 
       });
   }
 
@@ -38,7 +38,7 @@ function Login() {
         <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg">
           <h1 className="text-2xl font-semibold mb-4 text-gray-800">Login</h1>
           
-          {error && ( // Conditionally render the error message
+          {error && ( 
             <div className="mb-4 text-red-500">
               {error}
             </div>

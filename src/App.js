@@ -4,7 +4,6 @@ import './App.css';
 import '@fontsource/poppins';
 import '@fontsource/roboto';
 
-// Import all your page components here
 import Login from './pages/Login/Login';
 import SignUp from './pages/SignUp/SignUp';
 import AthleteForm from './pages/AthleteForm/AthleteForm';
@@ -40,7 +39,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
     if (!token) {
       navigate('/login');
     } else if (allowedRoles && !allowedRoles.includes(userRole)) {
-      navigate('/unauthorized');
+      navigate('/');
     }
   }, [token, userRole, allowedRoles, navigate]);
 
@@ -73,20 +72,16 @@ function App() {
     const checkTokenExpiration = () => {
       const token = getToken();
       if (token) {
-        // Decode the token to get the expiration time
         const tokenData = JSON.parse(atob(token.split('.')[1]));
-        const expirationTime = tokenData.exp * 1000; // Convert to milliseconds
+        const expirationTime = tokenData.exp * 1000; 
 
         if (Date.now() >= expirationTime) {
-          // Token has expiredt
-          localStorage.removeItem('authToken');
-          // Redirect to login page or update state to reflect logged out status
+          
           window.location.href = '/login';
         }
       }
     };
 
-    // Check token expiration on component mount and every minute
     checkTokenExpiration();
     const interval = setInterval(checkTokenExpiration, 60000);
 

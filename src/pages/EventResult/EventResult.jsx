@@ -15,11 +15,9 @@ const EventResult = () => {
       try {
         setLoading(true);
 
-        // Fetch event details
         const eventResponse = await axios.get(`http://localhost:8081/event/${eventId}`);
         setEvent(eventResponse.data);
 
-        // Fetch results
         const resultsResponse = await axios.get(`http://localhost:8081/event/${eventId}/result`);
         setResults(resultsResponse.data);
       } catch (err) {
@@ -46,7 +44,7 @@ const EventResult = () => {
               <img 
                 src={event.photoUrl} 
                 alt={event.eventTitle} 
-                className="w-full  object-cover  rounded-xl"  // Adjust width and height for fixed image
+                className="w-full  object-cover  rounded-xl"  
               />
             </div>
 

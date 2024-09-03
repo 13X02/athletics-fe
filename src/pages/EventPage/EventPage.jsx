@@ -3,7 +3,7 @@ import EventCard from '../../component/EventCard';
 import axios from 'axios';
 import Navbar from '../../component/Navbar';
 
-const API_URL = 'http://localhost:8081'; // Replace with your API URL
+const API_URL = 'http://localhost:8081'; 
 
 export const fetchAllEvents = async () => {
     try {
@@ -21,7 +21,7 @@ const EventPage = () => {
     const [page, setPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
     const [totalPages, setTotalPages] = useState(1);
-    const eventsPerPage = 12; // Adjust as needed
+    const eventsPerPage = 8; 
 
     useEffect(() => {
         const loadEvents = async () => {
@@ -46,7 +46,6 @@ const EventPage = () => {
             `${event.eventTitle} ${event.meetName} ${event.category}`.toLowerCase().includes(query.toLowerCase())
         );
 
-        // Sort events by date (most recent first)
         filteredEvents.sort((a, b) => new Date(b.eventDate) - new Date(a.eventDate));
 
         const startIndex = (currentPage - 1) * eventsPerPage;
@@ -58,7 +57,7 @@ const EventPage = () => {
 
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
-        setPage(1); // Reset to first page on search
+        setPage(1); 
     };
 
     const handlePageChange = (newPage) => {

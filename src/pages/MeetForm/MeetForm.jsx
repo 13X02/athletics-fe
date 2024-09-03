@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import Navbar from '../../component/Navbar';
 import { useNavigate } from 'react-router-dom';
+import { getToken } from '../../utils/AppUtils';
 
 const MeetForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -14,8 +15,7 @@ const MeetForm = () => {
       formData.append('meetName', data.meetName);
       formData.append('photo', data.photo[0]);
 
-      // Retrieve Bearer token from localStorage
-      const authHeader = `Bearer ${localStorage.getItem('authToken')}`;
+      const authHeader = `Bearer ${getToken()}`;
 
       const response = await axios.post('http://localhost:8081/meet/create', formData, {
         headers: {

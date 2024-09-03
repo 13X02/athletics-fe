@@ -7,7 +7,6 @@ const AdminDashboard = () => {
     const [meets, setMeets] = useState([]);
 
     useEffect(() => {
-        // Fetch list of meets
         axios.get('http://localhost:8081/meet')
             .then(response => setMeets(response.data))
             .catch(error => console.error('Error fetching meets:', error));

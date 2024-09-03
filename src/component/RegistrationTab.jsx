@@ -7,13 +7,12 @@ function RegistrationTabs({ athleteId }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch registrations by athlete ID
     const fetchRegistrations = async () => {
       try {
-        const authToken = localStorage.getItem('authToken'); // Retrieve token from localStorage
+        const authToken = localStorage.getItem('authToken'); 
         const response = await axios.get(`http://localhost:8081/event/registrations/athlete/${athleteId}`, {
           headers: {
-            Authorization: `Bearer ${authToken}` // Pass token in Authorization header
+            Authorization: `Bearer ${authToken}` 
           }
         });
         setRegistrations(response.data);
@@ -27,12 +26,11 @@ function RegistrationTabs({ athleteId }) {
     fetchRegistrations();
   }, [athleteId]);
 
-  // Filter registrations by status
   const filteredRegistrations = (status) => {
     return registrations.filter(reg => reg.status === status);
   };
 
-  // Helper function for rendering the registration table
+  
   const renderTable = (regs) => (
     <table className="min-w-full table-auto">
       <thead className="bg-gray-50">

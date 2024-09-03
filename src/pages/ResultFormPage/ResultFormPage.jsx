@@ -10,22 +10,21 @@ const ResultFormPage = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    const token = getToken(); // Retrieve token for authorization
+    const token = getToken(); 
 
     useEffect(() => {
-        // Fetch results for the event with authorization header
+        
         axios.get(`http://localhost:8081/event/registrations/event/${eventId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         })
             .then(response => {
-                // Initialize results with default values
                 const initializedResults = response.data.map(reg => ({
                     regId: reg.registrationId,
-                    score: '',   // Default empty value
+                    score: '',   
                     comment: '',
-                    eventId: eventId  // Default empty value
+                    eventId: eventId  
                 }));
                 setResults(initializedResults);
                 setLoading(false);
@@ -43,7 +42,6 @@ const ResultFormPage = () => {
     };
 
     const handleSave = () => {
-        // Post results to the backend with authorization header
         axios.post('http://localhost:8081/event/result', results, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -101,7 +99,7 @@ const ResultFormPage = () => {
             <div className="mt-4">
                 <button
                     onClick={handleSave}
-                    className="bg-black-500 text-white px-4 py-2 rounded hover:bg-gray-700"
+                    className="bg-black text-white px-4 py-2 rounded hover:bg-gray-700"
                 >
                     Save
                 </button>

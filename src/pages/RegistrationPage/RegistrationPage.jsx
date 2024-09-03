@@ -6,12 +6,11 @@ import { getToken } from '../../utils/AppUtils';
 
 const RegistrationPage = () => {
     const { eventId } = useParams();
-    const navigate = useNavigate(); // Use useNavigate hook
+    const navigate = useNavigate(); 
     const [registrations, setRegistrations] = useState([]);
     const token = getToken();
 
     useEffect(() => {
-        // Fetch registrations for the event
         axios.get(`http://localhost:8081/event/registrations/event/${eventId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -22,14 +21,12 @@ const RegistrationPage = () => {
     }, [eventId, token]);
 
     const handleApprove = (registrationId) => {
-        // Call API to approve registration
         axios.put(`http://localhost:8081/event/registrations/${registrationId}/approve`, null, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         })
             .then(() => {
-                // Update the state or refetch the registrations
                 setRegistrations(registrations.map(reg =>
                     reg.registrationId === registrationId ? { ...reg, status: 'APPROVED' } : reg
                 ));
@@ -38,14 +35,12 @@ const RegistrationPage = () => {
     };
 
     const handleReject = (registrationId) => {
-        // Call API to reject registration
         axios.put(`http://localhost:8081/event/registrations/${registrationId}/reject`, null, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         })
             .then(() => {
-                // Update the state or refetch the registrations
                 setRegistrations(registrations.map(reg =>
                     reg.registrationId === registrationId ? { ...reg, status: 'REJECTED' } : reg
                 ));

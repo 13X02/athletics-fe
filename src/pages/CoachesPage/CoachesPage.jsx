@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import CoachCard from '../../component/CoachCard'; // Update the path as needed
+import CoachCard from '../../component/CoachCard'; 
 import axios from 'axios';
 import Navbar from '../../component/Navbar';
 
-const API_URL = 'http://localhost:8081'; // Replace with your API URL
+const API_URL = 'http://localhost:8081'; 
 
 export const fetchAllCoaches = async () => {
     try {
@@ -21,8 +21,7 @@ const CoachesPage = () => {
     const [page, setPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
     const [totalPages, setTotalPages] = useState(1);
-    const coachesPerPage = 8; // Adjust as needed
-
+    const coachesPerPage = 8; 
     useEffect(() => {
         const loadCoaches = async () => {
             try {
@@ -54,7 +53,7 @@ const CoachesPage = () => {
 
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
-        setPage(1); // Reset to first page on search
+        setPage(1); 
     };
 
     const handlePageChange = (newPage) => {

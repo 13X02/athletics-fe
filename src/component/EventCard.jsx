@@ -9,11 +9,9 @@ const EventCard = ({ eventId, eventTitle, eventDate, meetName, category, photoUr
     const role = getUserRole(token);
     const [errorMessage, setErrorMessage] = useState('');
 
-    // Default photo URL if none provided
     photoUrl = photoUrl || 'https://via.placeholder.com/500';
 
     const handleClick = () => {
-        // Route based on event type
         if (eventType === "result") {
             navigate(`/result/${eventId}`);
         } else {

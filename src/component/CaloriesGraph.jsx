@@ -4,17 +4,14 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale } from 'chart.js';
 import 'tailwindcss/tailwind.css';
 
-// Register Chart.js components
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale);
 
 const CaloriesGraph = () => {
   const [dailyDietData, setDailyDietData] = useState([]);
-  const [weightPlan, setWeightPlan] = useState(null);
   const [showWeightPlanModal, setShowWeightPlanModal] = useState(false);
   const [showDailyDietModal, setShowDailyDietModal] = useState(false);
   const [recommendation, setRecommendation] = useState(null);
 
-  // Weight Plan form state
   const [weightPlanForm, setWeightPlanForm] = useState({
     startWeight: '',
     targetWeight: '',
@@ -22,7 +19,6 @@ const CaloriesGraph = () => {
     dailyCalorieGoal: ''
   });
 
-  // Daily Diet form state
   const [dailyDietForm, setDailyDietForm] = useState({
     date: '',
     calories: '',
@@ -87,7 +83,6 @@ const CaloriesGraph = () => {
     }
   };
 
-  // Daily Diet form handlers
   const handleDailyDietChange = (e) => {
     const { name, value } = e.target;
     setDailyDietForm(prevForm => ({
@@ -152,7 +147,6 @@ const CaloriesGraph = () => {
           <Line data={data} options={{ responsive: true, maintainAspectRatio: false, plugins: { legend: { display: true }, tooltip: { mode: 'index' }}}} />
         </div>
         
-        {/* Weight Plan Modal */}
         {showWeightPlanModal && (
           <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-60">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
@@ -281,7 +275,6 @@ const CaloriesGraph = () => {
           </div>
         )}
 
-        {/* AI Recommendation */}
         {recommendation && (
           <div className="mt-8 max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
             <h3 className="text-lg font-semibold mb-2">AI Recommended Meal Plan</h3>

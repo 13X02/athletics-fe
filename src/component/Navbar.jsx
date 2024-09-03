@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Ensure react-router-dom is installed
-import { FaUser, FaSignInAlt, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa'; // Added FaTimes for close button
-import { isLoggedIn, getUserRole } from '../utils/AppUtils'; // Adjust the path as needed
-import Sidebar from './Sidebar'; // Import the Sidebar component
+import { Link } from 'react-router-dom'; 
+import { FaUser, FaSignInAlt, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa'; 
+import { isLoggedIn, getUserRole } from '../utils/AppUtils'; 
+import Sidebar from './Sidebar';
 
 const Navbar = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState('');
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to handle mobile menu
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to handle sidebar
-
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     const loggedIn = isLoggedIn();
@@ -22,8 +20,9 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken'); // Changed to authToken for consistency
+    localStorage.removeItem('authToken'); 
     setIsUserLoggedIn(false);
+    window.location.href='/'
     setUserRole('');
   };
 

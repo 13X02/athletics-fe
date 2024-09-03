@@ -73,9 +73,9 @@ const SignUp = () => {
         axios.post("http://localhost:8081/auth/register", requestBody)
             .then((res) => {
                 console.log('Registration successful:', res.data);
-                const token = res.data; // Adjust based on actual response structure
+                const token = res.data; 
                 if (token) {
-                    localStorage.setItem('authToken', token); // Save token in localStorage
+                    localStorage.setItem('authToken', token); 
                     console.log('Token saved:', token);
                     if (role === 'COACH') {
                         navigate('/coach-form');

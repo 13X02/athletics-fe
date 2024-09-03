@@ -9,7 +9,6 @@ const AdminEvent = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        // Fetch all events
         axios.get('http://localhost:8081/event/inprogress')
             .then(response => setEvents(response.data))
             .catch(error => console.error('Error fetching events:', error));

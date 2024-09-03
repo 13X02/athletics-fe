@@ -58,7 +58,7 @@ const EventCard = ({ eventId, eventTitle, eventDate, meetName, category, photoUr
                 <p className="text-gray-600 mb-2 truncate">{`Meet: ${meetName}`}</p>
                 
                 <p className="text-gray-600 mb-4 truncate">{`Category: ${category}`}</p>
-                {role === 'ATHLETE' && (
+                {role === 'ATHLETE' && eventType != "result" &&(
                     <div className="flex justify-center mt-auto">
                         <button onClick={handleRegister} className="px-4 py-2 bg-blue-500 text-white rounded-full shadow hover:bg-blue-600 transition duration-300">
                             Register

@@ -1,17 +1,19 @@
 // EventResult.js
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../../component/Navbar';
 
 const PublishEventResult = () => {
     const [events, setEvents] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-
+    const navigate = useNavigate();
     useEffect(() => {
         // Fetch all events
         axios.get('http://localhost:8081/event/all')
-            .then(response => setEvents(response.data))
+            .then(response => {
+                setEvents(response.data)
+            })
             .catch(error => console.error('Error fetching events:', error));
     }, []);
 

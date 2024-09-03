@@ -40,18 +40,18 @@ const EventResult = () => {
       <Navbar />
       <div className="p-4">
         {event && (
-          <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4 rounded-xl shadow-lg">
             {/* Image Section */}
-            <div className="md:col-span-1">
+            <div className="md:col-span-1 rounded-xl">
               <img 
                 src={event.photoUrl} 
                 alt={event.eventTitle} 
-                className="w-full  object-cover "  // Adjust width and height for fixed image
+                className="w-full  object-cover  rounded-xl"  // Adjust width and height for fixed image
               />
             </div>
 
             {/* Details Section */}
-            <div className="md:col-span-1">
+            <div className="md:col-span-1 p-14">
               <h1 className="text-2xl font-bold mb-4">{event.eventTitle}</h1>
               <p><strong>Date:</strong> {event.eventDate}</p>
               <p><strong>Venue:</strong> {event.venue}</p>
@@ -60,7 +60,7 @@ const EventResult = () => {
           </div>
         )}
 
-        <div className="mt-6">
+        <div className="mt-6 p-14">
           <h2 className="text-xl font-semibold mb-4">Athlete Results</h2>
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">

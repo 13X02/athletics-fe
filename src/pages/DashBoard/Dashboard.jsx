@@ -92,7 +92,7 @@ const StatsDashboard = () => {
       <Navbar />
       <div className="container mx-auto font-poppins p-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-blue-600 text-white text-center p-6 rounded-lg shadow-lg flex items-center justify-center square">
+          <div className="bg-white text-black text-center p-6 rounded-lg shadow-lg flex items-center justify-center square">
             <div className="w-16 h-16 bg-white text-blue-600 rounded-full flex items-center justify-center shadow-lg mr-4">
               <FaCalendarDay size={24} />
             </div>
@@ -101,7 +101,7 @@ const StatsDashboard = () => {
               <p className="text-4xl font-bold">{eventStats.totalEvents}</p>
             </div>
           </div>
-          <div className="bg-green-600 text-white text-center p-6 rounded-lg shadow-lg flex items-center justify-center square">
+          <div className="bg-white text-black text-center p-6 rounded-lg shadow-lg flex items-center justify-center square">
             <div className="w-16 h-16 bg-white text-green-600 rounded-full flex items-center justify-center shadow-lg mr-4">
               <FaUserAlt size={24} />
             </div>
@@ -110,7 +110,7 @@ const StatsDashboard = () => {
               <p className="text-4xl font-bold">{overviewStats.totalAthletes}</p>
             </div>
           </div>
-          <div className="bg-red-600 text-white text-center p-6 rounded-lg shadow-lg flex items-center justify-center square">
+          <div className="bg-white text-black text-center p-6 rounded-lg shadow-lg flex items-center justify-center square">
             <div className="w-16 h-16 bg-white text-red-600 rounded-full flex items-center justify-center shadow-lg mr-4">
               <FaUserTie size={24} />
             </div>

@@ -107,7 +107,7 @@ const CoachForm = () => {
                 id="photo"
                 type="file"
                 {...register('photo', { required: 'Photo is required' })}
-                className="mt-1 block w-full h-12 text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-white file:bg-green-500 hover:file:bg-green-600"
+                className="mt-1 block w-full h-12 text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-white file:bg-black hover:file:bg-gray-600"
               />
               {errors.photo && <p className="text-red-500 text-xs mt-1">{errors.photo.message}</p>}
             </div>
@@ -115,7 +115,7 @@ const CoachForm = () => {
 
           <button
             type="submit"
-            className="w-full py-3 px-4 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full py-3 px-4 bg-black text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
           >
             Submit
           </button>

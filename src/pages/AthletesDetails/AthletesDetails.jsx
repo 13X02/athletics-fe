@@ -42,82 +42,85 @@ const AthleteDetails = () => {
        <Navbar/>
        <div className="container mx-auto p-4">
             {athlete && (
-                <div className="flex flex-col md:flex-row md:space-x-8">
-                    <div className="md:w-1/3 flex justify-center items-center">
+                <div className="flex flex-col md:flex-row md:space-x-8 py-10">
+                    <div className="md:w-1/3 flex justify-center items-center mb-4 md:mb-0">
                         <img
                             src={athlete.photoUrl}
                             alt={`${athlete.firstName} ${athlete.lastName}`}
-                            className="w-48 h-48 object-cover rounded-lg shadow-lg"
+                            className="w-32 h-32 sm:w-48 sm:h-48 object-cover rounded-full shadow-lg"
                         />
                     </div>
                     <div className="md:w-2/3">
-                        <h1 className="text-3xl font-bold mb-2">{athlete.firstName} {athlete.lastName}</h1>
+                        <h1 className="text-xl font-bold mb-2">{athlete.firstName} {athlete.lastName}</h1>
                         <p><strong>Date of Birth:</strong> {new Date(athlete.birthDate).toLocaleDateString()}</p>
                         <p><strong>Gender:</strong> {athlete.gender}</p>
                         <p><strong>Height:</strong> {athlete.height}</p>
                         <p><strong>Weight:</strong> {athlete.weight}</p>
                         <p><strong>Category:</strong> {athlete.category}</p>
-                        <p><strong>Coach:</strong> {athlete.coach ? athlete.coach.firstName + " "+ athlete.coach.lastName : 'N/A'}</p>
+                        <p><strong>Coach:</strong> {athlete.coach ? `${athlete.coach.firstName} ${athlete.coach.lastName}` : 'N/A'}</p>
                     </div>
                 </div>
             )}
 
-<div className="mt-8">
+            <div className="mt-8 p-4 md:p-10">
                 <h2 className="text-2xl font-bold mb-4">Top Performances</h2>
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                        <tr>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                            <tr>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meet Name</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event Name</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Remarks</th>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                        {topPerformances.map((performance) => (
-                            <tr key={performance.resultId}>
-                                <td className="px-6 py-4 whitespace-nowrap">{performance.event?.meet?.meetName}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{performance.event?.eventTitle}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{performance.score}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{performance.comment}</td>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event Name</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Remarks</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                            {topPerformances.map((performance) => (
+                                <tr key={performance.resultId}>
+                                    <td className="px-6 py-4 whitespace-nowrap">{performance.event?.meet?.meetName}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{performance.event?.eventTitle}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{performance.score}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{performance.comment}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <div className="mt-8">
+            <div className="mt-8 p-4 md:p-10">
                 <h2 className="text-2xl font-bold mb-4">Performance Results</h2>
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                        <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meet Name</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event Name</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Venue</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Remarks</th>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                        {results.map((result) => (
-                            <tr key={result.resultId}>
-                                <td className="px-6 py-4 whitespace-nowrap">{result.event?.meet?.meetName}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{result.event?.eventTitle}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{result.event?.category}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{result.event?.venue}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{result.score}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{result.comment}</td>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                            <tr>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meet Name</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event Name</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Venue</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Remarks</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                            {results.map((result) => (
+                                <tr key={result.resultId}>
+                                    <td className="px-6 py-4 whitespace-nowrap">{result.event?.meet?.meetName}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{result.event?.eventTitle}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{result.event?.category}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{result.event?.venue}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{result.score}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{result.comment}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
-           
         </div>
        </>
     );
 };
 
 export default AthleteDetails;
+

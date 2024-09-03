@@ -45,6 +45,10 @@ const EventPage = () => {
         const filteredEvents = data.filter(event =>
             `${event.eventTitle} ${event.meetName} ${event.category}`.toLowerCase().includes(query.toLowerCase())
         );
+
+        // Sort events by date (most recent first)
+        filteredEvents.sort((a, b) => new Date(b.eventDate) - new Date(a.eventDate));
+
         const startIndex = (currentPage - 1) * eventsPerPage;
         const paginatedEvents = filteredEvents.slice(startIndex, startIndex + eventsPerPage);
 

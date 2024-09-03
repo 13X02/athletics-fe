@@ -47,14 +47,14 @@ const AdminEvent = () => {
                 </thead>
                 <tbody>
                     {filteredEvents.map(event => (
-                        <tr key={event.eventId}>
+                        <tr key={event.eventId} className=''>
                             <td className="border-b px-4 py-2">{event.eventId}</td>
                             <td className="border-b px-4 py-2">{event.eventTitle}</td>
                             <td className="border-b px-4 py-2">{event.meetName}</td>
                             <td className="border-b px-4 py-2">
                                 <Link
                                     to={`/shortlist/${event.eventId}`}
-                                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+                                    className="bg-black text-white px-4 py-2 rounded hover:bg-gray-700"
                                 >
                                     View Registrations
                                 </Link>

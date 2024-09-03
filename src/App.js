@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import './App.css'; // Make sure this file does not conflict with Tailwind
+import React, { useEffect } from 'react';
+import { BrowserRouter, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import './App.css';
 import '@fontsource/poppins';
 import '@fontsource/roboto';
+
+// Import all your page components here
 import Login from './pages/Login/Login';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SignUp from './pages/SignUp/SignUp';
 import AthleteForm from './pages/AthleteForm/AthleteForm';
 import NotFound from './pages/NotFound/NotFound';
@@ -28,48 +29,104 @@ import AdminEvent from './pages/AdminEvent/AdminEvent';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import ResultFormPage from './pages/ResultFormPage/ResultFormPage';
 import PublishEventResult from './pages/PublishEventResult/PublishEventResult';
-function App() {
+import { getToken ,getUserRole } from './utils/AppUtils';
 
- 
-  
+const ProtectedRoute = ({ children, allowedRoles }) => {
+  const token = getToken();
+  const userRole = getUserRole(token);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+    } else if (allowedRoles && !allowedRoles.includes(userRole)) {
+      navigate('/unauthorized');
+    }
+  }, [token, userRole, allowedRoles, navigate]);
+
+  if (!token || (allowedRoles && !allowedRoles.includes(userRole))) {
+    return null;
+  }
+
+  return children;
+};
+
+const RoleBasedDashboard = () => {
+  const token = getToken()
+  const userRole = getUserRole(token);
+  console.log(userRole);
+
+  switch (userRole) {
+    case 'ATHLETE':
+      return <AthleteProfile />;
+    case 'COACH':
+      return <Coach />;
+    case 'ADMIN':
+      return <AdminDashboard />;
+    default:
+      return <NotFound />;
+  }
+};
+
+function App() {
+  useEffect(() => {
+    const checkTokenExpiration = () => {
+      const token = getToken();
+      if (token) {
+        // Decode the token to get the expiration time
+        const tokenData = JSON.parse(atob(token.split('.')[1]));
+        const expirationTime = tokenData.exp * 1000; // Convert to milliseconds
+
+        if (Date.now() >= expirationTime) {
+          // Token has expiredt
+          localStorage.removeItem('authToken');
+          // Redirect to login page or update state to reflect logged out status
+          window.location.href = '/login';
+        }
+      }
+    };
+
+    // Check token expiration on component mount and every minute
+    checkTokenExpiration();
+    const interval = setInterval(checkTokenExpiration, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <>
     <BrowserRouter>
       <Routes>
+        {/* Public routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/athlete-form" element={<AthleteForm />} />
-        <Route path='/coach-form' element={<CoachForm/>}/>
-        <Route path='/*' element={<NotFound/>}/>
-      
-        <Route path='/' element={<Dashboard/>}/>
-        <Route path='/coaches' element={<CoachesPage/>}/>
+        <Route path="/coaches" element={<CoachesPage />} />
         <Route path="/coach/:coachId" element={<CoachProfile />} />
-        <Route path='/news'element={<NewsPage/>}/>
-        <Route path='/events' element={<EventPage/>}/>
+        <Route path="/news" element={<NewsPage />} />
+        <Route path="/events" element={<EventPage />} />
         <Route path="/event/:id" element={<EventDetails />} />
-        <Route path='/athletes' element={<AthletesPage/>}/>
-        <Route path='/results' element={<ResultPage/>}/>
-        <Route path="/athlete/:id" element={<AthleteDetails/>} />
-        <Route path='/result/:eventId'element={<EventResult/>}/>
-        <Route path='/profile' element={<AthleteProfile/>}/>
-        <Route path='/coach' element={<Coach/>}/>
-       
+        <Route path="/athletes" element={<AthletesPage />} />
+        <Route path="/results" element={<ResultPage />} />
+        <Route path="/athlete/:id" element={<AthleteDetails />} />
+        <Route path="/result/:eventId" element={<EventResult />} />
+        <Route path="/" element={<Dashboard />} />
 
+        {/* Protected routes */}
+        <Route path="/athlete-form" element={<ProtectedRoute><AthleteForm /></ProtectedRoute>} />
+        <Route path="/coach-form" element={<ProtectedRoute><CoachForm /></ProtectedRoute>} />
+        <Route path="/dashboard" element={<ProtectedRoute><RoleBasedDashboard /></ProtectedRoute>} />
 
+        {/* Admin only routes */}
+        <Route path="/event-form" element={<ProtectedRoute allowedRoles={['ADMIN']}><EventForm /></ProtectedRoute>} />
+        <Route path="/meet-form" element={<ProtectedRoute allowedRoles={['ADMIN']}><MeetForm /></ProtectedRoute>} />
+        <Route path="/shortlist/:eventId" element={<ProtectedRoute allowedRoles={['ADMIN']}><RegistrationPage /></ProtectedRoute>} />
+        <Route path="/adminevent" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminEvent /></ProtectedRoute>} />
+        <Route path="/publishresult" element={<ProtectedRoute allowedRoles={['ADMIN']}><PublishEventResult /></ProtectedRoute>} />
+        <Route path="/result-form/:eventId" element={<ProtectedRoute allowedRoles={['ADMIN']}><ResultFormPage /></ProtectedRoute>} />
 
-
-        <Route path='/event-form'element={<EventForm/>}/>
-        <Route path='/meet-form' element={<MeetForm/>}/>
-        <Route path='/shortlist/:eventId' element={<RegistrationPage/>}/>
-        <Route path='/adminevent' element={<AdminEvent/>}/>
-        <Route path='/admin' element={<AdminDashboard/>}/>
-        <Route path='/publishresult' element={<PublishEventResult/>}/>
-        <Route path='/result-form/:eventId' element={<ResultFormPage/>}/>
+        {/* Catch-all route for 404 */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
-    
     </BrowserRouter>
-    </>
   );
 }
 

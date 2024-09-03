@@ -31,10 +31,7 @@ const EventDetails = () => {
         fetchEvent();
     }, [id]);
 
-    const handleRegister = () => {
-        // Handle registration logic here
-        alert('Registration functionality is not yet implemented.');
-    };
+ 
 
     if (!event) {
         return (
@@ -48,33 +45,24 @@ const EventDetails = () => {
         <>
         <Navbar />
         <div className="min-h-screen bg-gray-100 flex flex-col font-poppins">
-            <div className="flex flex-col lg:flex-row lg:space-x-8 bg-white rounded-lg shadow-lg mx-4 my-6 lg:my-8 lg:mx-8 overflow-hidden flex-grow">
+            <div className="flex flex-col lg:flex-row lg:space-x-8 bg-white rounded-lg shadow-lg mx-4 my-6 lg:my-8 lg:mx-8 overflow-hidden p-10 flex-grow">
                 <div className="lg:w-1/2 flex-shrink-0">
                     <img
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover rounded-lg"
                         src={event.photoUrl || 'https://via.placeholder.com/500'}
                         alt={event.eventTitle}
                     />
                 </div>
-                <div className="lg:w-1/2 p-6 flex flex-col justify-between">
+                <div className="lg:w-1/2 p-16 flex flex-col justify-between">
                     <div>
-                        <h1 className="text-4xl font-extrabold text-gray-800 mb-4">{event.eventTitle}</h1>
-                        <p className="text-xl text-gray-600 mb-2">{`Date: ${new Date(event.eventDate).toLocaleDateString()}`}</p>
-                        <p className="text-xl text-gray-600 mb-2">{`Meet: ${event.meet?.meetName || 'N/A'}`}</p>
-                        <p className="text-xl text-gray-600 mb-2">{`Venue: ${event.venue}`}</p>
-                        <p className="text-xl text-gray-600 mb-2">{`Category: ${event.category}`}</p>
+                        <h1 className="text-2xl font-extrabold text-gray-800 mb-4">{event.eventTitle}</h1>
+                        <p className="text-lg text-gray-600 mb-2">{`Date: ${new Date(event.eventDate).toLocaleDateString()}`}</p>
+                        <p className="text-lg text-gray-600 mb-2">{`Meet: ${event.meet?.meetName || 'N/A'}`}</p>
+                        <p className="text-lg text-gray-600 mb-2">{`Venue: ${event.venue}`}</p>
+                        <p className="text-lg text-gray-600 mb-2">{`Category: ${event.category}`}</p>
                         <p className="text-lg text-gray-700 mt-4">{event.eventDescription}</p>
                     </div>
-                    {role === 'ATHLETE' && (
-                        <div className="mt-6 flex justify-center">
-                            <button
-                                onClick={handleRegister}
-                                className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition duration-300"
-                            >
-                                Register
-                            </button>
-                        </div>
-                    )}
+                    
                 </div>
             </div>
             <div className="p-6 max-w-6xl mx-auto mt-8">

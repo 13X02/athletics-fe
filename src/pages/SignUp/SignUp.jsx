@@ -132,7 +132,7 @@ const SignUp = () => {
                 {fieldError && <p className="text-red-500">{fieldError}</p>}
                 <button
                     onClick={handleSubmit}
-                    className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200"
+                    className="w-full p-2 bg-black text-white rounded-md hover:bg-gray-600 transition duration-200"
                 >
                     Submit
                 </button>

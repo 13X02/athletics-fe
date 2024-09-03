@@ -93,7 +93,7 @@ const EventForm = () => {
                 },
             });
             alert("Event created succesfully")
-            navigate('/admin')
+            navigate('/dashboard')
             console.log(response.data);
             // Handle success (e.g., show a message or redirect)
         } catch (err) {
@@ -215,7 +215,7 @@ const EventForm = () => {
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
+                        className="w-full bg-black text-white py-3 px-6 rounded-lg shadow-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
                     >
                         Submit
                     </button>

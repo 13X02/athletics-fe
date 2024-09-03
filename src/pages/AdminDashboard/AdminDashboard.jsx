@@ -1,4 +1,3 @@
-// AdminDashboard.js
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -16,53 +15,61 @@ const AdminDashboard = () => {
 
     return (
         <>
-        <Navbar/>
-        <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
-            <div className="mb-6">
-                <Link
-                    to="/event-form"
-                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 mr-2"
-                >
-                    Create Event
-                </Link>
-                <Link
-                    to="/meet-form"
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 mr-2"
-                >
-                    Create Meet
-                </Link>
-                <Link
-                    to="/adminevent"
-                    className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700 mr-2"
-                >
-                    Shortlist Candidates
-                </Link>
-                <Link
-                    to="/publishresult"
-                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
-                >
-                    Publish Results
-                </Link>
+            <Navbar />
+            <div className="container mx-auto p-4 md:p-6 lg:p-8">
+                <h1 className="text-3xl font-bold mb-6 text-gray-800">Admin Dashboard</h1>
+                <div className="mb-8 flex flex-wrap justify-center p-10 gap-4">
+                    <Link
+                        to="/event-form"
+                        className="bg-black text-white px-6 py-3 rounded-lg shadow hover:bg-gray-600 transition duration-300"
+                    >
+                        Create Event
+                    </Link>
+                    <Link
+                        to="/meet-form"
+                        className="bg-black text-white px-6 py-3 rounded-lg shadow hover:bg-gray-600 transition duration-300"
+                    >
+                        Create Meet
+                    </Link>
+                    <Link
+                        to="/adminevent"
+                        className="bg-black text-white px-6 py-3 rounded-lg shadow hover:bg-gray-600 transition duration-300"
+                    >
+                        Shortlist Candidates
+                    </Link>
+                    <Link
+                        to="/publishresult"
+                        className="bg-black text-white px-6 py-3 rounded-lg shadow hover:bg-gray-600 transition duration-300"
+                    >
+                        Publish Results
+                    </Link>
+                </div>
+                <h2 className="text-2xl font-semibold mb-4 text-gray-700">Created Meets</h2>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+                        <thead className="bg-gray-100">
+                            <tr>
+                                <th className="border-b px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meet ID</th>
+                                <th className="border-b px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meet Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {meets.length > 0 ? (
+                                meets.map(meet => (
+                                    <tr key={meet.meetId} className="hover:bg-gray-50">
+                                        <td className="border-b px-4 py-3">{meet.meetId}</td>
+                                        <td className="border-b px-4 py-3">{meet.meetName}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="2" className="border-b px-4 py-3 text-center">No Meets Available</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <h2 className="text-xl font-semibold mb-4">Created Meets</h2>
-            <table className="min-w-full bg-white border border-gray-200">
-                <thead>
-                    <tr>
-                        <th className="border-b px-4 py-2">Meet ID</th>
-                        <th className="border-b px-4 py-2">Meet Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {meets.map(meet => (
-                        <tr key={meet.meetId}>
-                            <td className="border-b px-4 py-2">{meet.meetId}</td>
-                            <td className="border-b px-4 py-2">{meet.meetName}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
         </>
     );
 };

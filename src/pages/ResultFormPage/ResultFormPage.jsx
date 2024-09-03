@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../../component/Navbar';
 import { getToken } from '../../utils/AppUtils';
@@ -8,6 +8,7 @@ const ResultFormPage = () => {
     const { eventId } = useParams();
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const token = getToken(); // Retrieve token for authorization
 
@@ -50,6 +51,8 @@ const ResultFormPage = () => {
         })
             .then(() => {
                 alert('Results saved successfully!');
+                navigate("/dashboard")
+
             })
             .catch(error => {
                 console.error('Error saving results:', error);
@@ -98,7 +101,7 @@ const ResultFormPage = () => {
             <div className="mt-4">
                 <button
                     onClick={handleSave}
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+                    className="bg-black-500 text-white px-4 py-2 rounded hover:bg-gray-700"
                 >
                     Save
                 </button>

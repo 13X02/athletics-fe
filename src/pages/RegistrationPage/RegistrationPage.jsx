@@ -11,7 +11,7 @@ const RegistrationPage = () => {
     const token = getToken();
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/event/registrations/event/${eventId}`, {
+        axios.get(`http://localhost:8081/event/pendingregistrations/event/${eventId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

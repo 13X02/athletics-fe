@@ -22,7 +22,7 @@ const Sidebar = ({ isOpen, onClose, isUserLoggedIn, userRole, onLogout }) => {
           <div className="mt-8">
             {isUserLoggedIn ? (
               <>
-                <Link to="/profile" className="block px-4 py-2 rounded hover:bg-gray-200 flex items-center">
+                <Link to="/dashboard" className="block px-4 py-2 rounded hover:bg-gray-200 flex items-center">
                   <FaUser />
                   <span className="ml-2">Profile</span>
                 </Link>

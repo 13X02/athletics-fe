@@ -11,15 +11,15 @@ const ResultFormPage = () => {
     const navigate = useNavigate();
 
     const token = getToken(); 
-
     useEffect(() => {
         
-        axios.get(`http://localhost:8081/event/registrations/event/${eventId}`, {
+        axios.get(`http://localhost:8081/event/approvedregistrations/event/${eventId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         })
             .then(response => {
+                console.log(response.data);
                 const initializedResults = response.data.map(reg => ({
                     regId: reg.registrationId,
                     score: '',   
